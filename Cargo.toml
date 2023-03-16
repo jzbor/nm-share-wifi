@@ -12,7 +12,9 @@ license-file = "LICENSE"
 
 [dependencies]
 clap = { version = "4.1.8", features = ["derive"] }
-fast_qr = "0.8.4"
+fast_qr = { version = "0.8.4", features = ["image"] }
+gdk-pixbuf = "0.17.0"
+glib = "0.17.5"
 gtk4 = { version = "0.6.2", features = ["v4_8"] }
 serde = { version = "1.0.156", features = ["derive"] }
 serde_ini = "0.2.0"
