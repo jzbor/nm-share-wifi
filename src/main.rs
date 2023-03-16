@@ -3,6 +3,7 @@ use clap::Parser;
 use crate::network::*;
 
 
+mod gui;
 mod network;
 mod networkmanager;
 mod qr;
@@ -22,6 +23,12 @@ struct Args {
 
 #[derive(Clone, Debug, PartialEq, clap::Subcommand)]
 enum Subcommand {
+    /// Show gui
+    Gui {
+        /// GTK arguments
+        args: Vec<String>,
+    },
+
     /// Abort current timer
     List {
         /// Show secrets
@@ -87,6 +94,7 @@ fn main() {
     let args = Args::parse();
 
     let result = match args.command {
+        Subcommand::Gui { args } => gui::run_gui( args.clone() ),
         Subcommand::List { secrets } => list_wifis(secrets),
         Subcommand::Print { name } => print_wifi(&name),
     };
