@@ -1,0 +1,17 @@
+[package]
+name = "nm-share-wifi"
+version = "0.1.0"
+edition = "2021"
+authors = [ "jzbor" ]
+readme = "README.md"
+description = "Small utility to quickly share wifi networks known by NetworkManager"
+repository = "https://github.com/jzbor/nm-share-wifi"
+license-file = "LICENSE"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+clap = { version = "4.1.8", features = ["derive"] }
+fast_qr = "0.8.4"
+serde = { version = "1.0.156", features = ["derive"] }
+serde_ini = "0.2.0"
