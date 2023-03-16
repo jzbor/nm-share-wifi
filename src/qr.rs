@@ -19,10 +19,11 @@ impl QRCode {
         self.code.to_str()
     }
 
-    pub fn to_gdk_pixbuf(&self) -> gdk_pixbuf::Pixbuf {
+    pub fn to_gdk_pixbuf(&self, dark_mode: bool) -> gdk_pixbuf::Pixbuf {
+        let opacity = if dark_mode { 255 } else { 0 };
         let pixmap = ImageBuilder::default()
             .shape(Shape::RoundedSquare)
-            .background_color([255, 255, 255, 255]) // transparency
+            .background_color([255, 255, 255, opacity])
             .fit_width(PIXBUF_WIDTH)
             .to_pixmap(&self.code);
         let width = pixmap.width();

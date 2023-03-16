@@ -123,7 +123,8 @@ fn wifi_selection_changed(selector: &ComboBoxText, widgets: &Widgets, wifis: &[(
             widgets.ssid_label.set_label(wifi.ssid());
             widgets.pass_entry.set_text(wifi.passkey());
             if let Ok(qr_code) = wifi.qr_code() {
-                let pixbuf = qr_code.to_gdk_pixbuf();
+                let dark_mode = widgets.qr_image.settings().is_gtk_application_prefer_dark_theme();
+                let pixbuf = qr_code.to_gdk_pixbuf(dark_mode);
                 widgets.qr_image.set_pixel_size(pixbuf.width());
                 widgets.qr_image.set_from_pixbuf(Some(&pixbuf));
             }
