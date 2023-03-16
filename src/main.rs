@@ -34,6 +34,15 @@ enum Subcommand {
         /// Name of the wifi profile you want to print
         name: String,
     },
+
+    SaveQR {
+        /// Name of the wifi profile you want to save as a QR code
+        name: String,
+
+        /// Output file
+        #[clap(short, long, default_value_t = String::from("./wifi.png"))]
+        file: String,
+    },
 }
 
 
@@ -71,12 +80,13 @@ fn print_wifi(name: &str) -> Result<(), String> {
     }
 }
 
-fn print_qr(name: &str) -> Result<(), String> {
+fn save_qr(name: &str, filename: &str) -> Result<(), String> {
     let wifis = WifiNetwork::nm_wifis()?;
 
     if let Some((name, wifi)) = wifis.iter().find(|(n, _)| n == name) {
         let qr_code = wifi.qr_code()?;
-        println!("QR-Code for '{}':\n{}", name, qr_code.to_ascii());
+        qr_code.write_to_file(filename)?;
+        println!("Saved QR code for wifi network '{}' to {}", name, filename);
         Ok(())
     } else {
         Err(format!("unable to find wifi '{}'", name))
@@ -89,6 +99,7 @@ fn main() {
     let result = match args.command {
         Subcommand::List { secrets } => list_wifis(secrets),
         Subcommand::Print { name } => print_wifi(&name),
+        Subcommand::SaveQR { name, file } => save_qr(&name, &file),
     };
 
     if let Err(e) = result {
